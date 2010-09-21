@@ -1,0 +1,39 @@
+Grid definitions begin with a logical line containing the keyword “GRID”, the
+type of grid(circle, rhumb, or UTM) and, in the case of UTM grids only, a “UTM
+parameters specification”. The second logical line defines the traverse
+component of the conceptual grid.  Two points (specified as lat/longs in the
+case of circle and rhumb grids,  and easting/northings in the case of UTM
+grids) serve to locate the traverse reference line and establish its forward
+direction (the line runs from the first point specified to the second).  The
+points are followed by the number of the traverse reference line, whether
+traverse line numbers are to increase to the right or the left of this line,
+and the nominal distance between traverse lines.
+
+The third logical line defines the control component of the conceptual grid.
+The first quantity specified is the distance from the “start” point of the
+traverse reference line (i.e. the first of the two points specified in defining
+the traverse reference line) to the intersection of the traverse and control
+reference lines.  This distance (the “control line offset”) is measured along
+the traverse reference line in this line’s forward direction and is expressed
+in metres. The second quantity is the angle at which both the control reference
+line and all other control lines cross the traverse reference line.  The angle
+is measured clockwise from the forward direction of the traverse reference line
+to the forward direction of the control reference line."
+
+The survey lines in the sequence file are generated automatically based on the
+outline of the survey block. Only the lines or line segments falling inside the
+block are kept.
+
+As for the commands at the end of the file:
+
+VERTMODE determines the type of vertical guidance. There are mainly 3 types:
+VERTMODE GPS drapename.hgt 150 80     ;Fly drape mode using drapename.hgt. Fly
+150m above drape. Warn pilots to Pull Up! when altimeter clearance is 80m or
+less.  VERTMODE GPS FIXED 150 80                    ;Fly 150m fixed GPS height
+(above WGS-84 Ellipsoid). Pull up height at 80m.  VERTMODE RADAR 150
+;Fly at a fixed altimeter height of 150m
+
+The VDEVSCALE and XTKSCALE commands determine the sensitivity of vertical and
+horizontal guidance scales respectively. The full scale deflections are in
+metres.
+
