@@ -1,3 +1,7 @@
+%
+% Wrapper script to run the nonlinear Simulink model
+% Aaron Holtzman <aaron@holtzman.ca>
+%
 
 % Find the trim values Uo and run the sim 
 Geo_Find_Trim
