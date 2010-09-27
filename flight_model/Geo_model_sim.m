@@ -19,7 +19,7 @@ theta = modelout.signals.values(:,8);
 psi = modelout.signals.values(:,9);
 x = posout.signals.values(:,1) * 180 / pi; % latitude in degrees
 y = posout.signals.values(:,2) * 180 / pi; % longitude in degrees
-z = posout.signals.values(:,2);            % altitude in metres
+z = posout.signals.values(:,3);            % altitude in metres
 
 % Plot the outputs
 figure(1)
