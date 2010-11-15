@@ -1,4 +1,4 @@
-function [tlines clines] = load_sequence(file_name)
+function [survey] = load_sequence(file_name)
 % [tlines clines] = load_sequence(file_name)
 %     Loads an SGL survey sequence file. Returns two structures defining the 
 %     traverse and control survey lines.
@@ -6,9 +6,11 @@ function [tlines clines] = load_sequence(file_name)
 f = fopen(file_name,'r');
 
 %
-% First line we skip for now
+% First line has the grid definition
 %
 s = fgets(f);
+C = textscan(s,'%s %s %s');
+survey.utm_zone= char(C{3});
 
 %
 % Second line defines the traverse reference line
@@ -35,7 +37,7 @@ clines.n_lines = 0;
 clines.line = [];
 clines.phi = theta - clines.intersection_angle;
 phi = clines.phi;
-alpha = clines.intersection_angle
+alpha = clines.intersection_angle;
 
 %
 % Traverse lines
@@ -74,7 +76,7 @@ while(~strncmp(s,'ENDGRID',7))
 	n_lines = clines.n_lines;
 	clines.line(n_lines).num = C{1};
 	start_lim = C{3};
-	end_lim = C{5}
+	end_lim = C{5};
 
 	tmp = tlines.ref_pt1 +  ...
 	  ((n_lines-1) * clines.spacing / sin(alpha) + clines.start_offset) * [cos(theta) sin(theta)]; 
@@ -85,3 +87,6 @@ while(~strncmp(s,'ENDGRID',7))
 	  
 	s = fgets(f);
 end
+
+survey.tlines = tlines;
+survey.clines = clines;

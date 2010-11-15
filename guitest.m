@@ -1,39 +1,28 @@
 function guitest
 
-close all
+%close all
 %m = imread('map.png');
 %image(m);
 
 figure(1);
-[tline cline] = load_sequence('example_sequence/Plevna.seq');
+[survey] = load_sequence('example_sequence/Plevna.seq');
+plot_survey(survey);
 
-for i = [1:tline.n_lines]
-	h = line([tline.line(i).pt1(1) tline.line(i).pt2(1)],  ...
-	         [tline.line(i).pt1(2) tline.line(i).pt2(2)]);
-	set(h,'ButtonDownFcn',@button_down)
-	if(i == 1)
-		set(h,'Color','Red')
-	else
-		set(h,'Color','Blue')
-	end
+
+if (0)
+	% Draw a bounding box (still in UTM!)
+	tmp = tline.ref_pt1 + 500 * [sin(tline.theta) -cos(tline.theta)];
+	h = line([tline.ref_pt1(1) tmp(1)], [tline.ref_pt1(2) tmp(2)]);
+	set(h,'Color','Black')
+
+	foo = tline.ref_pt1 + -150 * [cos(cline.phi) sin(cline.phi)];
+	tmp = foo + 15 * 300 / sin(cline.intersection_angle) * [cos(tline.theta) sin(tline.theta)];
+	h = line([foo(1) tmp(1)], [foo(2) tmp(2)]);
+	set(h,'Color','Black')
+
+	foo = tline.ref_pt1 + (150 + (tline.n_lines-1) * tline.spacing / sin(cline.intersection_angle)) * [cos(cline.phi) sin(cline.phi)];
+	tmp = foo + 15 * 300 / sin(cline.intersection_angle) * [cos(tline.theta) sin(tline.theta)];
+	h = line([foo(1) tmp(1)], [foo(2) tmp(2)]);
+	set(h,'Color','Black')
+	tline.ref_pt1
 end
-
-for i = [1:cline.n_lines]
-	h = line([cline.line(i).pt1(1) cline.line(i).pt2(1)],  ...
-	         [cline.line(i).pt1(2) cline.line(i).pt2(2)]);
-	set(h,'ButtonDownFcn',@button_down)
-	if(i == 1)
-		set(h,'Color','Red')
-	else
-		set(h,'Color','Green')
-	end
-end
-axis equal
-
-function button_down(src, event)
-
-	if(strcmp(get(src,'Selected'), 'on'))
-		set(src,'Selected','off')
-	else
-		set(src,'Selected','on')
-	end
