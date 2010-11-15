@@ -5,6 +5,7 @@
 
 % Find the trim values Uo and run the sim 
 Geo_Find_Trim
+Uo(1) = 0; % Zero the aileron input
 [t] = sim('GeoSurvII_NonLinear_Signal.mdl', 60);
 
 % unpack the sim output

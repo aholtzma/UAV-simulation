@@ -20,7 +20,8 @@ tlines.ref_pt2 = [C{3} C{4}];
 tlines.spacing = C{7};
 tlines.n_lines = 0;
 tlines.line = [];
-theta = atan2(C{4} - C{2}, C{3} - C{1});
+tlines.theta = atan2(C{4} - C{2}, C{3} - C{1});
+theta = tlines.theta;
 
 %
 % Third line line defines the control reference line
@@ -28,11 +29,13 @@ theta = atan2(C{4} - C{2}, C{3} - C{1});
 s = fgets(f);
 C = textscan(s,'%f %f %f %s %f');
 clines.start_offset = C{1};
-clines.intersection_angle = C{2};
+clines.intersection_angle = C{2} * pi / 180;
 clines.spacing = C{5};
 clines.n_lines = 0;
 clines.line = [];
-phi = theta - clines.intersection_angle * pi / 180;
+clines.phi = theta - clines.intersection_angle;
+phi = clines.phi;
+alpha = clines.intersection_angle
 
 %
 % Traverse lines
@@ -55,7 +58,7 @@ while(~strncmp(s,'CLIMITS',7))
 
 	tmp = tlines.ref_pt1 + (n_lines-1) * tlines.spacing * [sin(theta) -cos(theta)];
 	tlines.line(n_lines).pt1 =  tmp + start_lim * [cos(theta) sin(theta)];
-	tlines.line(n_lines).pt2 =  tmp + end_lim * [cos(theta) sin(theta)];
+	tlines.line(n_lines).pt2 =  tmp + end_lim *   [cos(theta) sin(theta)];
 
 	s = fgets(f);
 end
@@ -65,21 +68,20 @@ end
 %
 s = fgets(f);
 while(~strncmp(s,'ENDGRID',7))
-	n_lines = clines.n_lines + 1;
 	C = textscan(s,'%d T%d%f T%d%f');
 
-	clines.n_lines = n_lines;
+	clines.n_lines = clines.n_lines + 1;
+	n_lines = clines.n_lines;
 	clines.line(n_lines).num = C{1};
-	start_lim = C{3}
+	start_lim = C{3};
 	end_lim = C{5}
 
-	clines.line(n_lines).pt1 = tlines.line(1).pt1 +  ...
-	  ((n_lines-1) * clines.spacing + clines.start_offset) * [cos(theta) sin(theta)] + ...
-	  start_lim * [cos(phi) sin(phi)];
+	tmp = tlines.ref_pt1 +  ...
+	  ((n_lines-1) * clines.spacing / sin(alpha) + clines.start_offset) * [cos(theta) sin(theta)]; 
 
-	clines.line(n_lines).pt2 = tlines.line(tlines.n_lines).pt1 +  ...
-	  ((n_lines-1) * clines.spacing + clines.start_offset) * [cos(theta) sin(theta)] + ...
-	  end_lim * [cos(phi) sin(phi)];
-
+	clines.line(n_lines).pt1 = tmp + start_lim * [cos(phi) sin(phi)];
+	clines.line(n_lines).pt2 = tmp + end_lim *   [cos(phi) sin(phi)] + ...
+	  (tlines.n_lines - 1) * tlines.spacing / sin(alpha) * [cos(phi) sin(phi)];
+	  
 	s = fgets(f);
 end
