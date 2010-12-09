@@ -22,7 +22,7 @@ function varargout = create_survey(varargin)
 
 % Edit the above text to modify the response to help create_survey
 
-% Last Modified by GUIDE v2.5 14-Nov-2010 23:41:41
+% Last Modified by GUIDE v2.5 01-Dec-2010 13:47:14
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -62,7 +62,6 @@ guidata(hObject, handles);
 %if strcmp(get(hObject,'Visible'),'off')
 %    plot([1 1], [1 1]);
 %end
-axis(handles.axes4, 'off');
 
 % UIWAIT makes create_survey wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
@@ -134,3 +133,33 @@ if ~isequal(file, 0)
     plot_survey(survey);
 end
 
+
+% --- Executes on button press in fly_survey_button.
+function fly_survey_button_Callback(hObject, eventdata, handles)
+% hObject    handle to fly_survey_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+fly_survey()
+
+
+% --- Executes on selection change in listbox1.
+function listbox1_Callback(hObject, eventdata, handles)
+% hObject    handle to listbox1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns listbox1 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from listbox1
+
+
+% --- Executes during object creation, after setting all properties.
+function listbox1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to listbox1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
