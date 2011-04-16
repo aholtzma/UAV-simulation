@@ -3,24 +3,32 @@
 % Aaron Holtzman <aaron@holtzman.ca>
 %
 
-% Find the trim values Uo and run the sim 
-Geo_Find_Trim
+% Find the trim values Uo 
+[Xo Uo] = Geo_Find_Trim(@Geo_cost);
 Uo(1) = 0; % Zero the aileron input
-[t] = sim('GeoSurvII_NonLinear_Signal.mdl', 60);
+
+% Run the sim
+u = [0 zeros(1,4)];
+initial_pos = [[44.98 -76.96] * pi / 180 0]; % lat/long
+[simout] = sim('GeoSurvII_NonLinear_Signal', 'SaveOutput','on','OutputSaveName','xout','SaveFormat','array');
+t = simout.get('tout');
+xout = simout.get('xout');
+X = xout(:,1:9);
+pos = xout(:,10:12);
 
 % unpack the sim output
-u = modelout.signals.values(:,1);
-v = modelout.signals.values(:,2);
-w = modelout.signals.values(:,3);
-p = modelout.signals.values(:,4);
-q = modelout.signals.values(:,5);
-r = modelout.signals.values(:,6);
-phi = modelout.signals.values(:,7);
-theta = modelout.signals.values(:,8);
-psi = modelout.signals.values(:,9);
-x = posout.signals.values(:,1) * 180 / pi; % latitude in degrees
-y = posout.signals.values(:,2) * 180 / pi; % longitude in degrees
-z = posout.signals.values(:,3);            % altitude in metres
+u = X(:,1);
+v = X(:,2);
+w = X(:,3);
+p = X(:,4);
+q = X(:,5);
+r = X(:,6);
+phi   = X(:,7);
+theta = X(:,8);
+psi   = X(:,9);
+x = pos(:,1) * 180 / pi; % latitude in degrees
+y = pos(:,2) * 180 / pi; % longitude in degrees
+z = pos(:,3);            % altitude in metres
 
 % Plot the outputs
 figure(1)

@@ -21,7 +21,7 @@ Model {
       Name		      "pos"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.188"
+    ComputedModelVersion    "1.191"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -41,9 +41,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "aholtzma"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Dec  8 21:50:27 2010"
-  RTWModifiedTimeStamp	  213745811
-  ModelVersionFormat	  "1.%<AutoIncrement:188>"
+  LastModifiedDate	  "Thu Jan 13 22:46:10 2011"
+  RTWModifiedTimeStamp	  216688574
+  ModelVersionFormat	  "1.%<AutoIncrement:191>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -370,7 +370,7 @@ Model {
 	  ModelReferenceNumInstancesAllowed "Multi"
 	  PropagateVarSize	  "Infer from blocks in model"
 	  ModelReferencePassRootInputsByReference on
-	  ModelReferenceMinAlgLoopOccurrences off
+	  ModelReferenceMinAlgLoopOccurrences on
 	  PropagateSignalLabelsOutOfModel off
 	  SupportModelReferenceSimTargetCustomCode off
 	}
@@ -565,7 +565,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Data Import//Export"
+      CurrentDlgPage	      "Model Referencing"
       ConfigPrmDlgPosition    " [ 805, 174, 1685, 804 ] "
     }
     PropName		    "ConfigurationSets"
@@ -838,7 +838,7 @@ Model {
   }
   System {
     Name		    "flight_model"
-    Location		    [2065, 473, 3341, 1374]
+    Location		    [741, 89, 2017, 990]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -852,7 +852,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "158"
+    SIDHighWatermark	    "161"
     Block {
       BlockType		      Inport
       Name		      "u"
@@ -3816,6 +3816,9 @@ Model {
     }
     Annotation {
       Position		      [291, 134]
+    }
+    Annotation {
+      Position		      [715, 484]
     }
   }
 }
