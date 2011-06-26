@@ -18,5 +18,6 @@ u4 = 0;                              %d_th (throttle)
 guess=[x1,x2,x3,x4,x5,x6,x7,x8,x9,u1,u2,u3,u4];
 trim_values=fminsearch(Geo_cost,guess, optimset('TolX',1e-10,'MaxFunEvals',10000,'MaxIter',10000));
 
-Xo=trim_values(1:9)
+%Xo=trim_values(1:9)
+Xo = guess(1:9);
 Uo=trim_values(10:13)

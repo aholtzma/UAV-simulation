@@ -26,7 +26,7 @@ assignin('base', 'Xo', Xo);
 assignin('base', 'initial_pos', initial_pos);
 mdl = 'gsII_uas';
 set_param(mdl,'SaveOutput','on','OutputSaveName','xout','SaveFormat','array');
-sim(mdl, 50, []);
+sim(mdl, 30, []);
 t = tout;
 X = xout(:,1:9);
 pos = xout(:,10:12);

@@ -22,7 +22,7 @@ Model {
       Name		      "u"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.152"
+    ComputedModelVersion    "1.178"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -42,9 +42,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "aholtzma"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jun 16 23:07:12 2011"
-  RTWModifiedTimeStamp	  230166430
-  ModelVersionFormat	  "1.%<AutoIncrement:152>"
+  LastModifiedDate	  "Sat Jun 25 23:18:12 2011"
+  RTWModifiedTimeStamp	  230770106
+  ModelVersionFormat	  "1.%<AutoIncrement:178>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -887,7 +887,7 @@ Model {
   }
   System {
     Name		    "gsII_uas"
-    Location		    [0, 94, 586, 355]
+    Location		    [0, 116, 586, 377]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1634,7 +1634,7 @@ Model {
 	  FilterMethod		  "Forward Euler"
 	  Form			  "Parallel"
 	  P			  "-1.66972905223625"
-	  I			  "-0.0256022317198751"
+	  I			  "0"
 	  D			  "-0.92214419446365"
 	  N			  "3.75219865969631"
 	  InitialConditionSource  "internal"
@@ -1752,10 +1752,10 @@ Model {
 	  IntegratorMethod	  "Forward Euler"
 	  FilterMethod		  "Forward Euler"
 	  Form			  "Parallel"
-	  P			  "0.524466288147014"
-	  I			  "0.0109953418211381"
-	  D			  "2.2196959036262"
-	  N			  "5.6444019490178"
+	  P			  "0.75"
+	  I			  "0"
+	  D			  "1.2"
+	  N			  "1"
 	  InitialConditionSource  "internal"
 	  InitialConditionForIntegrator	"0"
 	  InitialConditionForFilter "0"
@@ -1864,7 +1864,7 @@ Model {
 	  Position		  [475, 109, 505, 141]
 	  Floating		  off
 	  Location		  [29, 71, 705, 544]
-	  Open			  off
+	  Open			  on
 	  NumInputPorts		  "1"
 	  List {
 	    ListType		    AxesTitles
@@ -5188,7 +5188,7 @@ Model {
 	  MaskHideContents	  off
 	  System {
 	    Name		    "Original Nonlinear Model"
-	    Location		    [426, 91, 1199, 796]
+	    Location		    [426, 113, 1199, 818]
 	    Open		    on
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -8012,6 +8012,8 @@ Stateflow {
     created		    "07-Dec-2010 22:12:43"
     isLibrary		    0
     firstTarget		    28
+    debug {
+    }
     sfVersion		    75014000.000003
   }
   chart {
@@ -8445,7 +8447,6 @@ Stateflow {
     firstJunction	    20
     viewObj		    18
     machine		    1
-    toolbarMode		    LIBRARY_TOOLBAR
     ssIdHighWaterMark	    9
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
@@ -8473,19 +8474,25 @@ Stateflow {
       script		      "function [roll_target, pitch_target, test_point] = guidance(x, pos)\n%\n% Controller based on:\n%"
       "\n% Performance and Lyapunov Stability of a Nonlinear Path-Following Guidance Method\n%  Sanghyuk Park, John Dey"
       "st, and Jonathan P. How\n%  DOI 10.2514/1.28957\n%\n\n% FIXME  flight plan is hardcoded here\nline_x = [-76.9603"
-      "  -76.9758 -76.9597  -76.9752];\nline_y = [ 44.9550   44.9997  44.9553   45.0000];\n% FIXME\neml.extrinsic('line"
-      "circ');\n\ng = 9.8;\nL1 = 0.01;\nV = sqrt(sum(x(1:3).^2));\n\nslope = (line_y(2) - line_y(1)) / (line_x(2) - lin"
-      "e_x(1));\nintercpt = line_y(1) - slope * line_x(1);\n\n% Convert lat/long position from radians to degrees\npos_"
-      "x = pos(2) * 180 / pi;\npos_y = pos(1) * 180 / pi;\ncenterx = pos_x;\ncentery = pos_y;\nradius = L1;\n\nxout = d"
-      "ouble(zeros(2,1));\nyout = double(zeros(2,1));\n[xout,yout] = linecirc(slope,intercpt,centerx,centery,radius);\n"
-      "\n% Pick the line intersection closest to the endpoint\nd = [ \n  sqrt((line_x(2) - xout(1))^2 + (line_y(2) - yo"
-      "ut(1))^2)\n  sqrt((line_x(2) - xout(2))^2 + (line_y(2) - yout(2))^2)\n];\n[junk ind] = min(d);\nxint = xout(ind)"
-      ";\nyint = yout(ind);\n\n% Find eta\npsi = atan2(sin(x(9) + pi/2),-cos(x(9) + pi/2));\ntmp = atan2(yint - pos_y, "
-      "xint - pos_x);\neta = psi - tmp;\n\na = 2 * (V^2/(L1 * 100 * 1852)) * sin(eta);\nroll_target = atan(a/g);\n\nrol"
-      "l_target = min([roll_target 30 * pi / 180]);\nroll_target = max([roll_target -30 * pi / 180]);\n\n%\n% altitude "
-      "controller (controlled with pitch)\n%\naltitude_error = 1000 - pos(3); %FIXME hardcoded to 1000 metres\npitch_ta"
-      "rget = altitude_error * 0.1 / 100;\npitch_target = min([pitch_target 8 * pi / 180]);\npitch_target = max([pitch_"
-      "target -5 * pi / 180]);\n\n\ntest_point = a;"
+      "  -76.9758 -76.9597  -76.9752];\nline_y = [ 44.9550   44.9997  44.9553   45.0000];\n% FIXME\n\ng = 9.8;\nL1 = 0."
+      "01;\nV = sqrt(sum(x(1:3).^2));\n\nslope = (line_y(2) - line_y(1)) / (line_x(2) - line_x(1));\nintercpt = line_y("
+      "1) - slope * line_x(1);\n\n% Convert lat/long position from radians to degrees\npos_x = pos(2) * 180 / pi;\npos_"
+      "y = pos(1) * 180 / pi;\ncenterx = pos_x;\ncentery = pos_y;\nradius = L1;\n\nxout = double(zeros(2,1));\nyout = d"
+      "ouble(zeros(2,1));\n[xout,yout] = linecirc(slope,intercpt,centerx,centery,radius);\n\n% Pick the line intersecti"
+      "on closest to the endpoint\nd = [ \n  sqrt((line_x(2) - xout(1))^2 + (line_y(2) - yout(1))^2)\n  sqrt((line_x(2)"
+      " - xout(2))^2 + (line_y(2) - yout(2))^2)\n];\n[junk ind] = min(d);\nxint = xout(ind);\nyint = yout(ind);\n\n% Fi"
+      "nd eta\npsi = atan2(sin(x(9) + pi/2),-cos(x(9) + pi/2));\ntmp = atan2(yint - pos_y, xint - pos_x);\neta = psi - "
+      "tmp;\n\na = 2 * (V^2/(L1 * 100 * 1852)) * sin(eta);\nroll_target = atan(a/g);\n\nroll_target = min([roll_target "
+      "30 * pi / 180]);\nroll_target = max([roll_target -30 * pi / 180]);\n\n%\n% altitude controller (controlled with "
+      "pitch)\n%\naltitude_error = 1000 - pos(3); %FIXME hardcoded to 1000 metres\npitch_target = altitude_error * 0.1 "
+      "/ 100;\npitch_target = min([pitch_target 8 * pi / 180]);\npitch_target = max([pitch_target -5 * pi / 180]);\n\n\n"
+      "test_point = a;\n\nfunction [x, y]=linecirc(m, b, cx, cy, r)\n%\n% Find the intersection of a line and circle\n%"
+      "\nif ~isinf(m)\n        A = 1 + m.^2;\n        B = 2*(m.*(b-cy)-cx);\n        C = cx.^2 + b.^2 -2*cy.*b + cy.^2 "
+      "- r.^2;\n\n        x = quad_roots([A,B,C])';\n\n        if ~isreal(x)\n                x=[NaN NaN]; y=[NaN NaN];"
+      "\n        else\n                y=[m m].*x + [b b];\n        end\n\n% Vertical line cases\nelseif abs(cx)>r  % T"
+      "hey don't intercept\n        x = [NaN;NaN]; \n        y = [NaN;NaN];\nelse\n        x = [0 0];\n        y = cy +"
+      " [1 -1] .* sqrt(r^2-cx^2);\nend\n\n\nfunction x = quad_roots(coeffs)\n%\n% Solve for roots of a quadratic equati"
+      "on\n%\nA = coeffs(1);\nB = coeffs(2);\nC = coeffs(3);\nx = (-B + [1; -1] * sqrt(B^2 - 4 * A * C)) / (2*A);\n"
       editorLayout	      "100 M4x1[434 22 1006 874]"
     }
   }
